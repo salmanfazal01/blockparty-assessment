@@ -6,10 +6,10 @@ import { buildEtherscanAddresslink, smallerString } from "../../utils/helpers";
 import CopyToClipBoardButton from "../buttons/CopyToClipboardButton";
 
 const CollectionHeader = () => {
-  const { loading, error, data } = useQuery(GET_COLLECTION);
+  const { data } = useQuery(GET_COLLECTION);
 
-  const _id = data?.contract?.id || "";
-  const _name = data?.contract?.name || "";
+  const _id = data?.contract?.id || "ID";
+  const _name = data?.contract?.name || "Name";
 
   return (
     <Box>
@@ -24,7 +24,7 @@ const CollectionHeader = () => {
         flexWrap="wrap"
       >
         <CopyToClipBoardButton textToCopy={_id}>
-          <Typography sx={{ fontSize: 14 }}>{smallerString(_id)}</Typography>
+          <Typography>{smallerString(_id)}</Typography>
         </CopyToClipBoardButton>
 
         <a
@@ -34,7 +34,7 @@ const CollectionHeader = () => {
           style={{ color: "inherit" }}
         >
           <Stack direction="row" alignItems="center" spacing={1}>
-            <Typography sx={{ fontSize: 12, fontWeight: 600 }}>
+            <Typography variant="body2" sx={{ fontWeight: 600 }}>
               View on Etherscan
             </Typography>
             <OpenInNewIcon sx={{ fontSize: 16 }} />

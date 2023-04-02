@@ -28,7 +28,7 @@ const IdBadge: React.FC<IdBadgeProps> = ({ tokenID }) => (
       position: "absolute",
       top: 0,
       left: 0,
-      p: "9px",
+      px: "9px",
       borderWidth: "0px 1px 1px 0px",
       borderColor: "rgba(241, 241, 236, 0.5)",
       borderStyle: "solid",
@@ -36,9 +36,10 @@ const IdBadge: React.FC<IdBadgeProps> = ({ tokenID }) => (
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
+      height: 29,
     }}
   >
-    <Typography sx={{ fontSize: 12 }}>#{tokenID}</Typography>
+    <Typography variant="body2">#{tokenID}</Typography>
   </Box>
 );
 
@@ -54,7 +55,12 @@ const TokenName: React.FC<TokenNameProps> = ({ name }) => (
       borderRadius: 1,
     })}
   >
-    <Typography sx={{ p: 2, fontSize: 12, fontWeight: 700 }}>{name}</Typography>
+    <Typography
+      variant="body2"
+      sx={{ p: 2, fontWeight: 700, lineHeight: "12px" }}
+    >
+      {name}
+    </Typography>
   </Box>
 );
 
@@ -92,7 +98,7 @@ const NFTCard: React.FC<TokenProps> = ({ tokenID, image, name }) => {
         <StyledImage src={image.url} alt="Alt text" loading="lazy" />
 
         {/* Token Name */}
-        <TokenName name={name} />
+        {name && <TokenName name={name} />}
       </Card>
 
       {/* Dialog */}
