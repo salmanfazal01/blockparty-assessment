@@ -65,39 +65,41 @@ const NFTCard: React.FC<TokenProps> = ({ tokenID, image, name }) => {
     setOpen(false);
   };
 
-  console.log(open);
-
   return (
-    <Card
-      onClick={() => setOpen(true)}
-      sx={{
-        cursor: "pointer",
-        height: 262,
-        // width: 262,
-        width: "100%",
-        border: "1px solid rgba(241, 241, 236, 0.5)",
-        borderRadius: 2,
-        position: "relative",
-        transition: "all .4s ease",
-        "&:hover": {
-          "& img": {
-            transform: "scale(1.1)",
+    <>
+      <Card
+        onClick={() => setOpen(true)}
+        sx={{
+          cursor: "pointer",
+          height: 262,
+          // width: 262,
+          width: "100%",
+          border: "1px solid rgba(241, 241, 236, 0.5)",
+          borderRadius: 2,
+          position: "relative",
+          transition: "all .4s ease",
+          "&:hover": {
+            "& img": {
+              transform: "scale(1.1)",
+            },
           },
-        },
-      }}
-    >
-      {/* ID */}
-      <IdBadge tokenID={tokenID} />
+        }}
+      >
+        {/* ID */}
+        <IdBadge tokenID={tokenID} />
 
-      {/* Image */}
-      <StyledImage src={image.url} alt="Alt text" loading="lazy" />
+        {/* Image */}
+        <StyledImage src={image.url} alt="Alt text" loading="lazy" />
 
-      {/* Token Name */}
-      <TokenName name={name} />
+        {/* Token Name */}
+        <TokenName name={name} />
+      </Card>
 
       {/* Dialog */}
-      {open && <NFTDetailsDialog open={open} handleClose={handleClose} />}
-    </Card>
+      {open && (
+        <NFTDetailsDialog open={open} handleClose={handleClose} id={tokenID} />
+      )}
+    </>
   );
 };
 

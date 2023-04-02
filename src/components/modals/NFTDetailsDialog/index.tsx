@@ -1,15 +1,19 @@
+import { useQuery } from "@apollo/client";
 import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Stack,
   Typography,
+  styled,
 } from "@mui/material";
-import { format, compareAsc } from "date-fns";
+import { format } from "date-fns";
+import { GET_NFT } from "../../../GraphQL/Queries";
 
 interface DialogProps {
+  id: string;
   open: boolean;
   handleClose: () => void;
 }
@@ -25,33 +29,31 @@ interface TokenProps {
   };
 }
 
-const NFTDetailsDialog = ({ open, handleClose }: DialogProps) => {
-  const token = {
-    tokenID: "3",
-    name: "Dream Big - by Dario De Siena",
-    createdAt: "2023-03-17T19:56:59Z",
-    createdBlock: 16849745,
-    description: "",
-    image: {
-      url: "https://arweave.net/AS_DZjWS6N_yZvptGcvfX9eJ9J1Y-ZYY0pm120KlahA",
-    },
-  };
+const StyledImage = styled("img")(() => ({
+  width: "100%",
+  height: "100%",
+  maxHeight: 500,
+  objectFit: "contain",
+}));
+
+const NFTDetailsDialog = ({ open, handleClose, id }: DialogProps) => {
+  const { loading, error, data } = useQuery(GET_NFT(id));
+
+  if (loading)
+    return (
+      <Dialog open>
+        <Typography sx={{ p: 2 }}>Loading ...</Typography>
+      </Dialog>
+    );
+
+  const token: TokenProps = data.token || {};
 
   return (
     <Dialog onClose={handleClose} open={open} fullWidth maxWidth="md">
       <DialogTitle>{token.name}</DialogTitle>
 
       <DialogContent>
-        <img
-          src={token.image.url}
-          alt={token.name}
-          style={{
-            width: "100%",
-            height: "100%",
-            maxHeight: 500,
-            objectFit: "contain",
-          }}
-        />
+        <StyledImage src={token.image.url} alt={token.name} />
 
         <Stack sx={{ mt: 2 }} spacing={1}>
           <Typography>ID: {token.tokenID}</Typography>

@@ -1,23 +1,31 @@
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import App from "./App";
 import theme from "./config/theme";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
+
+const client = new ApolloClient({
+  uri: "https://nftnode.org/v0/nftindexer/mainnet/graphql",
+  cache: new InMemoryCache(),
+});
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <CssBaseline />
-        <App />
-      </BrowserRouter>
-    </ThemeProvider>
+    <ApolloProvider client={client}>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <CssBaseline />
+          <App />
+        </BrowserRouter>
+      </ThemeProvider>
+    </ApolloProvider>
   </React.StrictMode>
 );
 

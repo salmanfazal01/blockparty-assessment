@@ -1,18 +1,20 @@
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import { useQuery } from "@apollo/client";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { Box, Stack, Typography } from "@mui/material";
+import { GET_COLLECTION } from "../../GraphQL/Queries";
 import { buildEtherscanAddresslink, smallerString } from "../../utils/helpers";
+import CopyToClipBoardButton from "../buttons/CopyToClipboardButton";
 
 const CollectionHeader = () => {
-  const contract = {
-    id: "0x8ae7cd5bd5072011f57dc00b6f094df545efd1ad",
-    name: "Dario De Siena - Giving Back",
-  };
+  const { loading, error, data } = useQuery(GET_COLLECTION);
+
+  const _id = data?.contract?.id || "";
+  const _name = data?.contract?.name || "";
 
   return (
     <Box>
       <Typography variant="h4" sx={{ mb: 1 }}>
-        {contract.name}
+        {_name}
       </Typography>
 
       <Stack
@@ -21,12 +23,9 @@ const CollectionHeader = () => {
         spacing={{ xs: 1, sm: 3 }}
         flexWrap="wrap"
       >
-        <Stack direction="row" alignItems="center" spacing={1}>
-          <Typography sx={{ fontSize: 14 }}>
-            {smallerString(contract.id)}
-          </Typography>
-          <ContentCopyIcon sx={{ fontSize: 16 }} />
-        </Stack>
+        <CopyToClipBoardButton textToCopy={_id}>
+          <Typography sx={{ fontSize: 14 }}>{smallerString(_id)}</Typography>
+        </CopyToClipBoardButton>
 
         <a
           href={buildEtherscanAddresslink(_id)}
